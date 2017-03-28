@@ -1,18 +1,10 @@
 var discord = require('discord.js');
 var snoowrap = require('snoowrap');
 var config = require('./config/config.js');
-const playArbitraryFFmpeg = require('discord.js-arbitrary-ffmpeg');
 
 let data = {};
 
 data.discord = new discord.Client();
-
-data.arrFFmpegParams = [
-    '-i', './audio/circus.mp3',
-    '-filter:a', 'asetrate=r=66K'
-];
-
-data.playFF = playArbitraryFFmpeg;
 
 data.snoo = new snoowrap({
   userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36',	
