@@ -153,7 +153,7 @@ bot.on("message", msg => {
 	    case "ban":
 	    	command.splice(0, 1);
 			var banned = command.join(" ");
-	    	if (/[h][o]+[f]/gi.test(banned) || /[a][l][e][x]/gi.test(banned)){
+	    	if (/[h][o]+[f]/gi.test(banned) || /[a][l][e][x]/gi.test(banned) || banned === "@Hooooof#8588"){
 	    		msg.channel.sendMessage(msg.author.username.toUpperCase() + " has been banned");
 	    	}
 	    	else {
@@ -257,6 +257,73 @@ bot.on("message", msg => {
 	}
 });
 
+
+bot.on("voiceStateUpdate", (oldmem, newmem) => {
+
+	var time = new Date();	
+	var hr = time.getHours();
+	var min = time.getMinutes();
+	if (min<10) min = "0"+min.toString();
+	
+	if (oldmem.user.bot) return; //ignores bot movement
+	if (oldmem.mute!==newmem.mute) return;
+	if (oldmem.guild.name === "Down Taunt" || newmem.guild.name === "Down Taunt") return;
+
+	if (newmem.user.username === "Hooooof"){
+		if (!newmem.voiceChannel){
+			oldmem.voiceChannel.leave();
+			return;
+		}
+		newmem.voiceChannel.join()
+			.then(connection => {
+				console.log("sniped " + newmem.user.username + " in " + newmem.voiceChannel.name + "(" + newmem.guild.name + ")");
+				const dispatcher = connection.playFile('./audio/fanfare.mp3')
+			}).catch(console.error);
+	}
+
+	if (newmem.guild.name === "Hoofcord"){
+		if (!newmem.voiceChannel){
+			oldmem.voiceChannel.leave();
+			return;
+		}
+		var file;
+		switch (newmem.user.id){
+			case "195983397636538368": //matt
+				file = './audio/work.mp3';
+			break;
+			case "195670108855730176": //curtis
+				file = './audio/fanfare.mp3';
+			break;
+			case "196325929037856769": //kyle
+				file = './audio/circus.mp3';
+			break;
+			case "195690361950044161": //nic
+				file = './audio/seagulls.mp3';
+			break;
+			case "163785229784449024": //hoof
+				file = './audio/troll.mp3';
+			break;
+			case "196092701798563840": //robertson
+				file = './audio/scatman.mp3';
+			break;
+			case "168797231334424577": //david
+				file = './audio/scatman.mp3';
+			break;
+			case "196318726054739968": //jroll
+				file = './audio/pink.mp3';
+			break;
+		}
+		if (file!==undefined){
+			newmem.voiceChannel.join()
+				.then(connection => {
+					console.log("(" + hr + ":" + min + ") sniped " + newmem.user.username + " in " + newmem.voiceChannel.name + "(" + newmem.guild.name + ") - playing " + file);
+					const dispatcher = connection.playFile(file);
+				}).catch(console.error);
+			//newmem.user.dmChannel.sendMessage("type `!stop` and i'll fuck right off!");
+		}
+	}
+});
+
 var target; //galaxy
 bot.on("typingStart",(channel, user) => {
 
@@ -288,7 +355,7 @@ bot.on("typingStop",(channel, user) => {
 bot.on("guildMemberAdd", (member) => {
     console.log(`"${member.user.username}" has joined "${member.guild.name}"`);
     member.guild.channels.get(access_channels[member.guild.name]).sendMessage(`"${member.user.username}" has joined this server`);
-    member.guild.defaultChannel.sendMessage("Welcome to the Down Taunt server <@" + member.user.id + ">! To assign your region, type `!assign na` or `!assign eu` into the general chat. Go to #rules-info for more information!")
+    member.guild.defaultChannel.sendMessage("Welcome to the Down Taunt server <@" + member.user.id + ">! To assign your region, type `!assign na` or `!assign eu` into the general chat. Go to <@218820100021551105> for more information!")
 });
 
 bot.on("guildMemberRemove", (member) => {
