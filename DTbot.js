@@ -17,6 +17,7 @@ var stream_links = db.data.stream_links;
 var nsfw_subs = db.data.nsfw_subs;
 var sfw_subs = db.data.sfw_subs;
 
+var startTime;
 var nsfw = false;
 
 //This is the part of the script that handles user input in discord text channels that the bot lives in
@@ -254,6 +255,29 @@ bot.on("message", msg => {
 	    	}
 	    break;
 	    
+	    case "uptime":
+	    	var endTime = new Date().getTime();
+	    	var x = 0;
+	    	if (!command[1]) command[1]="hours";
+	    	switch (command[1]){
+	    		case "seconds":
+	    			x = ((endTime - startTime) / (1000)).toFixed(2);
+	    			msg.channel.sendMessage("Uptime: "+ x + " seconds");
+	    		break;
+	    		case "minutes":
+	    			x = ((endTime - startTime) / (1000*60)).toFixed(2);
+	    			msg.channel.sendMessage("Uptime: "+ x + " minutes");
+	    		break;	    		
+	    		case "hours":
+	    			x = ((endTime - startTime) / (1000*60*60)).toFixed(3);
+	    			msg.channel.sendMessage("Uptime: "+ x + " hours");
+	    		break;
+	    		case "days":
+	    			x = ((endTime - startTime) / (1000*60*60*24)).toFixed(4);
+	    			msg.channel.sendMessage("Uptime: "+ x + " days");
+	    		break;
+	    	}
+	    	
 	}
 });
 
@@ -365,6 +389,7 @@ bot.on("guildMemberRemove", (member) => {
 
 bot.on('ready', () => {
   console.log(`Ready to serve in ${bot.channels.size} channels on ${bot.guilds.size} servers, for a total of ${bot.users.size} users.`);
+  startTime = new Date().getTime();
 });
 
 bot.login(config.discord.login);
