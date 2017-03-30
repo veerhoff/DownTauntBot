@@ -379,7 +379,7 @@ bot.on("typingStop",(channel, user) => {
 bot.on("guildMemberAdd", (member) => {
     console.log(`"${member.user.username}" has joined "${member.guild.name}"`);
     member.guild.channels.get(access_channels[member.guild.name]).sendMessage(`"${member.user.username}" has joined this server`);
-    member.guild.defaultChannel.sendMessage("Welcome to the Down Taunt server <@" + member.user.id + ">! To assign your region, type `!assign na` or `!assign eu` into the general chat. Go to <@218820100021551105> for more information!")
+    member.guild.defaultChannel.sendMessage("Welcome to the Down Taunt server <@" + member.user.id + ">! To assign your region, type `!assign na` or `!assign eu` into the general chat. Go to #rules-info for more information!")
 });
 
 bot.on("guildMemberRemove", (member) => {
