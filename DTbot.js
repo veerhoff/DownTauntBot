@@ -270,10 +270,8 @@ bot.on("voiceStateUpdate", (oldmem, newmem) => {
 	if (oldmem.guild.name === "Down Taunt" || newmem.guild.name === "Down Taunt") return;
 
 	if (newmem.user.username === "Hooooof"){
-		if (!newmem.voiceChannel){
-			oldmem.voiceChannel.leave();
-			return;
-		}
+		if (oldmem.voiceChannel) oldmem.voiceChannel.leave();
+		if (!newmem.voiceChannel) return;
 		newmem.voiceChannel.join()
 			.then(connection => {
 				console.log("sniped " + newmem.user.username + " in " + newmem.voiceChannel.name + "(" + newmem.guild.name + ")");
@@ -281,6 +279,7 @@ bot.on("voiceStateUpdate", (oldmem, newmem) => {
 			}).catch(console.error);
 	}
 
+	/*
 	if (newmem.guild.name === "Hoofcord"){
 		if (!newmem.voiceChannel){
 			oldmem.voiceChannel.leave();
@@ -322,6 +321,7 @@ bot.on("voiceStateUpdate", (oldmem, newmem) => {
 			//newmem.user.dmChannel.sendMessage("type `!stop` and i'll fuck right off!");
 		}
 	}
+	*/
 });
 
 var target; //galaxy
